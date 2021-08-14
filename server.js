@@ -4,6 +4,16 @@ const cors = require('cors');
 const app = express();
 app.use(cors());
 app.use(express.json());
+app.post('/refresh', (req,res) =>{
+    const refreshToken = req.body.refreshToken;
+    const spotifyApi = new SpotifyWebApi({
+        redirectUri:process.env.REDIRECT_URI,
+        clientId:process.env.CLIENT_ID,
+        clientSecret:process.env.CLIENT_SECRET,
+        refreshToken,
+
+    })
+})
 
 app.post('/', (req,res) =>{
     const code = req.body.code;
@@ -11,7 +21,9 @@ app.post('/', (req,res) =>{
         redirectUri:process.env.REDIRECT_URI,
         clientId:process.env.CLIENT_ID,
         clientSecret:process.env.CLIENT_SECRET,
+        
     });
+
     // line 13 we are authorizing that we have a code;
     spotifyApi.authorizationCodeGrant(code).then(data=>{
         res.json({
@@ -20,8 +32,9 @@ app.post('/', (req,res) =>{
             refreshToken:data.body.refresh_token,
             expiresIn: data.body.expires_in,
         });
-    }).catch(()=>{
+    }).catch((e)=>{
         // any issue it will catch it here and send status of 400;
+        // console.log(e);
         res.sendStatus(400);
     })
 });
