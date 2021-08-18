@@ -20,7 +20,6 @@ app.use(express.urlencoded({extended: true}));
 console.log('hi');
 // seedFunction();
 
-// console.log(seedFunction);
 app.post('/refresh', (req,res) =>{
   const refreshToken = req.body.refreshToken;
   const spotifyApi = new SpotifyWebApi({
@@ -50,12 +49,6 @@ app.post('/login', (req,res) =>{
     clientId:process.env.CLIENT_ID,
     clientSecret:process.env.CLIENT_SECRET,
   });
-  // spotifyApi.getUser('xa7d9q0862ivuth0fv3c9b78f')
-  //   .then(function(data) {
-  //     console.log('Some information about this user', data.body);
-  //   }, function(err) {
-  //     console.log('Something went wrong!', err);
-  //   });
 
   // line 13 we are authorizing that we have a code;
   spotifyApi.authorizationCodeGrant(code).then(data=>{

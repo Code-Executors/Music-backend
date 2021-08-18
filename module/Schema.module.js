@@ -15,36 +15,35 @@ const playlistSchema = new Schema({
 
 
 const userSchema = new Schema({
-  email:{
-    type:String,
-    // required:true,
-    unique:true,
+  email: {
+    type: String,
+    unique: true,
   },
-  playlist:[playlistSchema]
-
+  playlist: [playlistSchema]
 });
 
-const UserModel = mongoose.model('users',userSchema);
+const UserModel = mongoose.model('users', userSchema);
 
-const seedFunction = ()=>{
-  try{
+const seedFunction = () => {
+  try {
     const user = new UserModel({
       email: 'xa7d9q0862ivuth0fv3c9b78f',
-      playlist:[
+      playlist: [
         {
           title: 'drake',
-          artist:'wael',
-          uri:'spotifydfddas'
+          artist: 'wael',
+          uri: 'spotifydfddas'
         }
       ]
 
     });
     user.save();
-  }catch(e){
+  } catch (e) {
     console.log('Error while creating the user: ', e.message);
   }
 };
-module.exports ={
+
+module.exports = {
   UserModel,
   seedFunction,
 };
