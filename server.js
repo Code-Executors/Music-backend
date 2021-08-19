@@ -6,7 +6,6 @@ const SpotifyWebApi = require('spotify-web-api-node');
 const lyricsFinder = require('lyrics-finder');
 const {getSongs,createSong,deleteSong} = require('./controller/Songs.controller');
 const {seedFunction} = require('./module/Schema.module');
-// const bodyParser = require('body-parser');
 mongoose.connect('mongodb://localhost:27017/songs',{useNewUrlParser: true, useUnifiedTopology: true});
 
 const app = express();
@@ -16,8 +15,7 @@ require('dotenv').config();
 app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({extended: true}));
-// app.use(bodyParser.json());
-console.log('hi');
+
 // seedFunction();
 
 app.post('/refresh', (req,res) =>{
@@ -34,7 +32,6 @@ app.post('/refresh', (req,res) =>{
       accessToken: data.body.access_token,
       expiresIn: data.body.expires_in
     });
-    console.log(data.body);
   })
     .catch(e => {
       console.log(e);
@@ -52,7 +49,6 @@ app.post('/login', (req,res) =>{
 
   // line 13 we are authorizing that we have a code;
   spotifyApi.authorizationCodeGrant(code).then(data=>{
-    console.log(code);
     res.json({
       // Once we have this code it will give us the access_token, refresh_token and expires_in token and those are used to authenticate the user;
       accessToken: data.body.access_token,
